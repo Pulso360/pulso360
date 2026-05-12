@@ -3,121 +3,154 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Pulso360 - Bienestar Escolar</title>
+<title>Pulso360</title>
 
 <style>
 body {
-    font-family: Arial, sans-serif;
-    background: #f4f6f9;
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #4facfe, #00f2fe);
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
 }
-.container {
+
+.app {
     background: white;
+    width: 350px;
+    border-radius: 20px;
     padding: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.progress {
+    height: 6px;
+    background: #eee;
     border-radius: 10px;
-    width: 400px;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+    overflow: hidden;
 }
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background: #4facfe;
+    transition: 0.3s;
+}
+
 h2 {
-    text-align: center;
+    margin-bottom: 20px;
 }
-button {
-    background: #4CAF50;
-    color: white;
-    border: none;
-    padding: 10px;
-    width: 100%;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.hidden {
-    display: none;
-}
-.result {
-    text-align: center;
+
+.question {
     font-size: 18px;
-    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.options button {
+    display: block;
+    width: 100%;
+    margin: 10px 0;
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    background: #f0f0f0;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+.options button:hover {
+    background: #4facfe;
+    color: white;
+}
+
+.result {
+    font-size: 18px;
 }
 </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="app">
+
+<div class="progress">
+    <div class="progress-bar" id="progress"></div>
+</div>
 
 <h2>Pulso360</h2>
 
-<div id="quiz">
-
-<p>1. Me he sentido triste sin razón</p>
-<select id="q1">
-<option value="0">Nunca</option>
-<option value="1">A veces</option>
-<option value="2">Frecuentemente</option>
-<option value="3">Casi siempre</option>
-</select>
-
-<p>2. Me cuesta concentrarme</p>
-<select id="q2">
-<option value="0">Nunca</option>
-<option value="1">A veces</option>
-<option value="2">Frecuentemente</option>
-<option value="3">Casi siempre</option>
-</select>
-
-<p>3. Me siento solo/a</p>
-<select id="q3">
-<option value="0">Nunca</option>
-<option value="1">A veces</option>
-<option value="2">Frecuentemente</option>
-<option value="3">Casi siempre</option>
-</select>
-
-<p>4. He pensado en dejar la escuela</p>
-<select id="q4">
-<option value="0">Nunca</option>
-<option value="1">A veces</option>
-<option value="2">Frecuentemente</option>
-<option value="3">Casi siempre</option>
-</select>
-
-<br><br>
-<button onclick="calcular()">Ver resultado</button>
-
-</div>
-
-<div id="resultado" class="hidden result"></div>
+<div id="contenido"></div>
 
 </div>
 
 <script>
-function calcular() {
-    let total =
-        parseInt(document.getElementById("q1").value) +
-        parseInt(document.getElementById("q2").value) +
-        parseInt(document.getElementById("q3").value) +
-        parseInt(document.getElementById("q4").value);
+const preguntas = [
+    "En la última semana, ¿te has sentido triste sin razón?",
+    "¿Te ha costado concentrarte en clases o tareas?",
+    "¿Te has sentido solo/a incluso con otras personas?",
+    "¿Has pensado en dejar la escuela?"
+];
 
-    let texto = "";
+let index = 0;
+let respuestas = [];
+
+function mostrarPregunta() {
+    let progreso = (index / preguntas.length) * 100;
+    document.getElementById("progress").style.width = progreso + "%";
+
+    document.getElementById("contenido").innerHTML = `
+        <div class="question">${preguntas[index]}</div>
+        <div class="options">
+            <button onclick="responder(0)">Nunca</button>
+            <button onclick="responder(1)">A veces</button>
+            <button onclick="responder(2)">Frecuentemente</button>
+            <button onclick="responder(3)">Casi siempre</button>
+        </div>
+    `;
+}
+
+function responder(valor) {
+    respuestas.push(valor);
+    index++;
+
+    if (index < preguntas.length) {
+        mostrarPregunta();
+    } else {
+        mostrarResultado();
+    }
+}
+
+function mostrarResultado() {
+    let total = respuestas.reduce((a, b) => a + b, 0);
+    let mensaje = "";
 
     if (total <= 3) {
-        texto = "🟢 Bienestar estable";
+        mensaje = "🟢 Parece que te encuentras en un buen momento emocional. Sigue así.";
     } else if (total <= 6) {
-        texto = "🟡 Riesgo leve";
+        mensaje = "🟡 Hay algunas señales de estrés. Hablar con alguien puede ayudarte.";
     } else if (total <= 9) {
-        texto = "🟠 Riesgo moderado";
+        mensaje = "🟠 Podrías estar pasando por un momento difícil. Busca apoyo.";
     } else {
-        texto = "🔴 Riesgo alto. Busca apoyo.";
+        mensaje = "🔴 Es importante que hables con alguien de confianza o un profesional.";
     }
 
-    document.getElementById("quiz").classList.add("hidden");
-    let res = document.getElementById("resultado");
-    res.classList.remove("hidden");
-    res.innerHTML = texto;
+    document.getElementById("contenido").innerHTML = `
+        <div class="result">${mensaje}</div>
+        <br><br>
+        <button onclick="reiniciar()">Volver a empezar</button>
+    `;
 }
+
+function reiniciar() {
+    index = 0;
+    respuestas = [];
+    mostrarPregunta();
+}
+
+mostrarPregunta();
 </script>
 
 </body>
