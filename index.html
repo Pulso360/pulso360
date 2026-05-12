@@ -1,69 +1,197 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Pulso360</title>
 
 <style>
+* {
+    box-sizing: border-box;
+}
+
 body {
     margin: 0;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(135deg, #4facfe, #00f2fe);
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    min-height: 100vh;
+    background:
+        radial-gradient(circle at top left, #7c3aed 0, transparent 30%),
+        radial-gradient(circle at bottom right, #06b6d4 0, transparent 35%),
+        linear-gradient(135deg, #0f172a, #1e293b);
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    color: #0f172a;
+    padding: 20px;
 }
 
 .app {
-    background: white;
-    width: 350px;
-    border-radius: 20px;
-    padding: 25px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    background: rgba(255, 255, 255, 0.94);
+    width: 100%;
+    max-width: 430px;
+    border-radius: 28px;
+    padding: 28px;
+    box-shadow: 0 25px 60px rgba(0,0,0,0.35);
     text-align: center;
+    backdrop-filter: blur(12px);
+}
+
+.brand {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+}
+
+.logo {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, #7c3aed, #06b6d4);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 800;
+    font-size: 20px;
+}
+
+h1 {
+    margin: 0;
+    font-size: 28px;
+}
+
+.subtitle {
+    font-size: 14px;
+    color: #64748b;
+    margin-bottom: 22px;
+}
+
+.progress-wrap {
+    margin-bottom: 22px;
+}
+
+.progress-info {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: #64748b;
+    margin-bottom: 8px;
 }
 
 .progress {
-    height: 6px;
-    background: #eee;
-    border-radius: 10px;
-    margin-bottom: 20px;
+    height: 9px;
+    background: #e2e8f0;
+    border-radius: 999px;
     overflow: hidden;
 }
 
 .progress-bar {
     height: 100%;
     width: 0%;
-    background: #4facfe;
-    transition: 0.3s;
+    background: linear-gradient(90deg, #7c3aed, #06b6d4);
+    transition: width 0.35s ease;
+}
+
+.card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 22px;
+    padding: 24px;
+    margin-top: 10px;
 }
 
 .question {
-    font-size: 18px;
-    margin-bottom: 20px;
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.35;
+    margin-bottom: 22px;
 }
 
-.options button {
+.options button, .primary-btn {
     display: block;
     width: 100%;
-    margin: 10px 0;
-    padding: 10px;
+    margin: 12px 0;
+    padding: 14px;
     border: none;
-    border-radius: 10px;
-    background: #f0f0f0;
+    border-radius: 16px;
+    background: white;
+    color: #0f172a;
+    font-size: 15px;
+    font-weight: 600;
     cursor: pointer;
-    transition: 0.2s;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s ease;
 }
 
 .options button:hover {
-    background: #4facfe;
-    color: white;
+    transform: translateY(-2px);
+    border-color: #7c3aed;
+    box-shadow: 0 8px 18px rgba(124,58,237,0.18);
 }
 
-.result {
-    font-size: 16px;
+.primary-btn {
+    background: linear-gradient(135deg, #7c3aed, #06b6d4);
+    color: white;
+    border: none;
+}
+
+.primary-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(6,182,212,0.28);
+}
+
+.notice {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #64748b;
+    margin-top: 16px;
+}
+
+.result-badge {
+    font-size: 42px;
+    margin-bottom: 8px;
+}
+
+.result-title {
+    font-size: 22px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.result-text {
+    font-size: 15px;
+    color: #475569;
+    line-height: 1.5;
+}
+
+.area-pill {
+    display: inline-block;
+    margin-top: 14px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    background: #e0f2fe;
+    color: #0369a1;
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.footer {
+    margin-top: 18px;
+    font-size: 12px;
+    color: #94a3b8;
+}
+
+@media (max-width: 480px) {
+    .app {
+        padding: 22px;
+        border-radius: 24px;
+    }
+
+    .question {
+        font-size: 18px;
+    }
 }
 </style>
 </head>
@@ -71,47 +199,41 @@ body {
 <body>
 
 <div class="app">
+    <div class="brand">
+        <div class="logo">P</div>
+        <div>
+            <h1>Pulso360</h1>
+            <div class="subtitle">Termómetro de bienestar escolar</div>
+        </div>
+    </div>
 
-<div class="progress">
-    <div class="progress-bar" id="progress"></div>
-</div>
+    <div id="contenido"></div>
 
-<h2>Pulso360</h2>
-
-<div id="contenido"></div>
-
+    <div class="footer">Herramienta de orientación preventiva. No sustituye atención profesional.</div>
 </div>
 
 <script>
-
 const preguntas = [
-
-    // EMOCIONAL
     { texto: "¿Te has sentido triste sin razón?", tipo: "emocional" },
     { texto: "¿Te has sentido preocupado o nervioso?", tipo: "emocional" },
     { texto: "¿Te cuesta disfrutar cosas que antes te gustaban?", tipo: "emocional" },
 
-    // ACADÉMICO
     { texto: "¿Te cuesta concentrarte en clase?", tipo: "academico" },
     { texto: "¿Dejas tareas para el último momento?", tipo: "academico" },
     { texto: "¿Sientes que tu rendimiento ha bajado?", tipo: "academico" },
     { texto: "¿Evitas actividades escolares importantes?", tipo: "academico" },
 
-    // SOCIAL
     { texto: "¿Te sientes solo/a aunque estés con otros?", tipo: "social" },
     { texto: "¿Has tenido conflictos con compañeros?", tipo: "social" },
     { texto: "¿Sientes que tienes con quién hablar?", tipo: "social", invertida: true },
     { texto: "¿Sientes que encajas en tu escuela?", tipo: "social", invertida: true },
 
-    // AUTOCUIDADO
     { texto: "¿Has dormido mal últimamente?", tipo: "autocuidado" },
     { texto: "¿Te sientes cansado/a durante el día?", tipo: "autocuidado" },
 
-    // MOTIVACIÓN
     { texto: "¿Te cuesta encontrar motivación para ir a la escuela?", tipo: "motivacion" },
     { texto: "¿Sientes que lo que haces en la escuela vale la pena?", tipo: "motivacion", invertida: true },
 
-    // RIESGO
     { texto: "¿Has sentido que nada vale la pena?", tipo: "riesgo" },
     { texto: "¿Has pensado en dejar la escuela?", tipo: "riesgo" }
 ];
@@ -119,17 +241,44 @@ const preguntas = [
 let index = 0;
 let respuestas = [];
 
+function pantallaInicio() {
+    document.getElementById("contenido").innerHTML = `
+        <div class="card">
+            <div class="question">Antes de empezar</div>
+            <p class="result-text">
+                Responde con honestidad. No hay respuestas buenas o malas.
+                Este cuestionario ayuda a identificar señales de bienestar, estrés o riesgo escolar.
+            </p>
+            <button class="primary-btn" onclick="mostrarPregunta()">Comenzar</button>
+            <p class="notice">
+                Tus respuestas deben manejarse con confidencialidad y solo con fines de orientación.
+            </p>
+        </div>
+    `;
+}
+
 function mostrarPregunta() {
     let progreso = (index / preguntas.length) * 100;
-    document.getElementById("progress").style.width = progreso + "%";
 
     document.getElementById("contenido").innerHTML = `
-        <div class="question">${preguntas[index].texto}</div>
-        <div class="options">
-            <button onclick="responder(0)">Nunca</button>
-            <button onclick="responder(1)">A veces</button>
-            <button onclick="responder(2)">Frecuentemente</button>
-            <button onclick="responder(3)">Casi siempre</button>
+        <div class="progress-wrap">
+            <div class="progress-info">
+                <span>Pregunta ${index + 1} de ${preguntas.length}</span>
+                <span>${Math.round(progreso)}%</span>
+            </div>
+            <div class="progress">
+                <div class="progress-bar" style="width:${progreso}%"></div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="question">${preguntas[index].texto}</div>
+            <div class="options">
+                <button onclick="responder(0)">Nunca</button>
+                <button onclick="responder(1)">A veces</button>
+                <button onclick="responder(2)">Frecuentemente</button>
+                <button onclick="responder(3)">Casi siempre</button>
+            </div>
         </div>
     `;
 }
@@ -146,7 +295,6 @@ function responder(valor) {
 }
 
 function calcularResultado() {
-
     let scores = {
         emocional: 0,
         academico: 0,
@@ -194,41 +342,66 @@ function calcularResultado() {
 }
 
 function mostrarResultado(nivel, area) {
-
-    let mensajes = {
-        bajo: "🟢 En general te encuentras bien.",
-        leve: "🟡 Hay algunas áreas que podrías mejorar.",
-        moderado: "🟠 Podrías estar pasando por un momento difícil.",
-        alto: "🔴 Es importante que hables con alguien de confianza o un profesional."
+    const data = {
+        bajo: {
+            icono: "🟢",
+            titulo: "Bienestar estable",
+            texto: "En general, tus respuestas indican un estado favorable. Sigue cuidando tus hábitos, descanso y relaciones."
+        },
+        leve: {
+            icono: "🟡",
+            titulo: "Señales leves",
+            texto: "Hay algunas áreas que podrían necesitar atención. Hablar con alguien de confianza puede ayudarte a prevenir que aumenten."
+        },
+        moderado: {
+            icono: "🟠",
+            titulo: "Carga importante",
+            texto: "Tus respuestas sugieren que podrías estar pasando por un momento difícil. Sería recomendable buscar apoyo."
+        },
+        alto: {
+            icono: "🔴",
+            titulo: "Alerta de apoyo",
+            texto: "Es importante que hables con una persona adulta de confianza, orientación escolar o un profesional."
+        }
     };
 
-    let areas = {
-        emocional: "emocional",
-        academico: "académica",
-        social: "social",
-        autocuidado: "de autocuidado",
-        motivacion: "de motivación",
-        riesgo: "de riesgo personal"
+    const areas = {
+        emocional: "Estado emocional",
+        academico: "Área académica",
+        social: "Contexto social",
+        autocuidado: "Autocuidado",
+        motivacion: "Motivación escolar",
+        riesgo: "Riesgo personal"
     };
 
     document.getElementById("contenido").innerHTML = `
-        <div class="result">
-            <p>${mensajes[nivel]}</p>
-            <p>Área principal detectada: <strong>${areas[area]}</strong></p>
+        <div class="progress-wrap">
+            <div class="progress-info">
+                <span>Completado</span>
+                <span>100%</span>
+            </div>
+            <div class="progress">
+                <div class="progress-bar" style="width:100%"></div>
+            </div>
         </div>
-        <br>
-        <button onclick="reiniciar()">Volver a empezar</button>
+
+        <div class="card">
+            <div class="result-badge">${data[nivel].icono}</div>
+            <div class="result-title">${data[nivel].titulo}</div>
+            <p class="result-text">${data[nivel].texto}</p>
+            <div class="area-pill">Área principal: ${areas[area]}</div>
+            <button class="primary-btn" onclick="reiniciar()">Volver a empezar</button>
+        </div>
     `;
 }
 
 function reiniciar() {
     index = 0;
     respuestas = [];
-    mostrarPregunta();
+    pantallaInicio();
 }
 
-mostrarPregunta();
-
+pantallaInicio();
 </script>
 
 </body>
