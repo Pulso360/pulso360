@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pulso360 - Bienestar Escolar</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #f4f6f9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+.container {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    width: 400px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+}
+h2 {
+    text-align: center;
+}
+button {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 10px;
+    width: 100%;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.hidden {
+    display: none;
+}
+.result {
+    text-align: center;
+    font-size: 18px;
+    margin-top: 20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>Pulso360</h2>
+
+<div id="quiz">
+
+<p>1. Me he sentido triste sin razón</p>
+<select id="q1">
+<option value="0">Nunca</option>
+<option value="1">A veces</option>
+<option value="2">Frecuentemente</option>
+<option value="3">Casi siempre</option>
+</select>
+
+<p>2. Me cuesta concentrarme</p>
+<select id="q2">
+<option value="0">Nunca</option>
+<option value="1">A veces</option>
+<option value="2">Frecuentemente</option>
+<option value="3">Casi siempre</option>
+</select>
+
+<p>3. Me siento solo/a</p>
+<select id="q3">
+<option value="0">Nunca</option>
+<option value="1">A veces</option>
+<option value="2">Frecuentemente</option>
+<option value="3">Casi siempre</option>
+</select>
+
+<p>4. He pensado en dejar la escuela</p>
+<select id="q4">
+<option value="0">Nunca</option>
+<option value="1">A veces</option>
+<option value="2">Frecuentemente</option>
+<option value="3">Casi siempre</option>
+</select>
+
+<br><br>
+<button onclick="calcular()">Ver resultado</button>
+
+</div>
+
+<div id="resultado" class="hidden result"></div>
+
+</div>
+
+<script>
+function calcular() {
+    let total =
+        parseInt(document.getElementById("q1").value) +
+        parseInt(document.getElementById("q2").value) +
+        parseInt(document.getElementById("q3").value) +
+        parseInt(document.getElementById("q4").value);
+
+    let texto = "";
+
+    if (total <= 3) {
+        texto = "🟢 Bienestar estable";
+    } else if (total <= 6) {
+        texto = "🟡 Riesgo leve";
+    } else if (total <= 9) {
+        texto = "🟠 Riesgo moderado";
+    } else {
+        texto = "🔴 Riesgo alto. Busca apoyo.";
+    }
+
+    document.getElementById("quiz").classList.add("hidden");
+    let res = document.getElementById("resultado");
+    res.classList.remove("hidden");
+    res.innerHTML = texto;
+}
+</script>
+
+</body>
+</html>
