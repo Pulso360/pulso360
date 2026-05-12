@@ -83,22 +83,37 @@ body {
 </div>
 
 <script>
+
 const preguntas = [
-    { texto: "En la última semana, ¿te has sentido triste sin razón?", tipo: "emocional" },
+
+    // EMOCIONAL
+    { texto: "¿Te has sentido triste sin razón?", tipo: "emocional" },
     { texto: "¿Te has sentido preocupado o nervioso?", tipo: "emocional" },
     { texto: "¿Te cuesta disfrutar cosas que antes te gustaban?", tipo: "emocional" },
 
+    // ACADÉMICO
     { texto: "¿Te cuesta concentrarte en clase?", tipo: "academico" },
     { texto: "¿Dejas tareas para el último momento?", tipo: "academico" },
     { texto: "¿Sientes que tu rendimiento ha bajado?", tipo: "academico" },
+    { texto: "¿Evitas actividades escolares importantes?", tipo: "academico" },
 
+    // SOCIAL
     { texto: "¿Te sientes solo/a aunque estés con otros?", tipo: "social" },
     { texto: "¿Has tenido conflictos con compañeros?", tipo: "social" },
     { texto: "¿Sientes que tienes con quién hablar?", tipo: "social", invertida: true },
+    { texto: "¿Sientes que encajas en tu escuela?", tipo: "social", invertida: true },
 
+    // AUTOCUIDADO
+    { texto: "¿Has dormido mal últimamente?", tipo: "autocuidado" },
+    { texto: "¿Te sientes cansado/a durante el día?", tipo: "autocuidado" },
+
+    // MOTIVACIÓN
+    { texto: "¿Te cuesta encontrar motivación para ir a la escuela?", tipo: "motivacion" },
+    { texto: "¿Sientes que lo que haces en la escuela vale la pena?", tipo: "motivacion", invertida: true },
+
+    // RIESGO
     { texto: "¿Has sentido que nada vale la pena?", tipo: "riesgo" },
-    { texto: "¿Has pensado en dejar la escuela?", tipo: "riesgo" },
-    { texto: "¿Te has sentido sobrepasado por lo que sientes?", tipo: "riesgo" }
+    { texto: "¿Has pensado en dejar la escuela?", tipo: "riesgo" }
 ];
 
 let index = 0;
@@ -131,39 +146,45 @@ function responder(valor) {
 }
 
 function calcularResultado() {
+
     let scores = {
         emocional: 0,
         academico: 0,
         social: 0,
+        autocuidado: 0,
+        motivacion: 0,
         riesgo: 0
     };
 
     let alertaCritica = false;
 
     respuestas.forEach((valor, i) => {
-        let pregunta = preguntas[i];
+        let p = preguntas[i];
 
-        if (pregunta.invertida) {
+        if (p.invertida) {
             valor = 3 - valor;
         }
 
-        scores[pregunta.tipo] += valor;
+        scores[p.tipo] += valor;
 
-        if (pregunta.tipo === "riesgo" && valor >= 2) {
+        if (p.tipo === "riesgo" && valor >= 2) {
             alertaCritica = true;
         }
     });
 
-    let principal = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
-
     let total = Object.values(scores).reduce((a, b) => a + b, 0);
 
+    let principal = Object.keys(scores).reduce((a, b) =>
+        scores[a] > scores[b] ? a : b
+    );
+
     let nivel = "";
-    if (alertaCritica || total > 20) {
+
+    if (alertaCritica || total > 30) {
         nivel = "alto";
-    } else if (total > 14) {
+    } else if (total > 20) {
         nivel = "moderado";
-    } else if (total > 7) {
+    } else if (total > 10) {
         nivel = "leve";
     } else {
         nivel = "bajo";
@@ -173,9 +194,10 @@ function calcularResultado() {
 }
 
 function mostrarResultado(nivel, area) {
+
     let mensajes = {
-        bajo: "🟢 Te encuentras en un buen momento general.",
-        leve: "🟡 Hay algunas señales que vale la pena atender.",
+        bajo: "🟢 En general te encuentras bien.",
+        leve: "🟡 Hay algunas áreas que podrías mejorar.",
         moderado: "🟠 Podrías estar pasando por un momento difícil.",
         alto: "🔴 Es importante que hables con alguien de confianza o un profesional."
     };
@@ -184,6 +206,8 @@ function mostrarResultado(nivel, area) {
         emocional: "emocional",
         academico: "académica",
         social: "social",
+        autocuidado: "de autocuidado",
+        motivacion: "de motivación",
         riesgo: "de riesgo personal"
     };
 
@@ -204,6 +228,7 @@ function reiniciar() {
 }
 
 mostrarPregunta();
+
 </script>
 
 </body>
