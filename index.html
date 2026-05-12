@@ -40,10 +40,6 @@ body {
     transition: 0.3s;
 }
 
-h2 {
-    margin-bottom: 20px;
-}
-
 .question {
     font-size: 18px;
     margin-bottom: 20px;
@@ -67,7 +63,7 @@ h2 {
 }
 
 .result {
-    font-size: 18px;
+    font-size: 16px;
 }
 </style>
 </head>
@@ -88,10 +84,21 @@ h2 {
 
 <script>
 const preguntas = [
-    "En la última semana, ¿te has sentido triste sin razón?",
-    "¿Te ha costado concentrarte en clases o tareas?",
-    "¿Te has sentido solo/a incluso con otras personas?",
-    "¿Has pensado en dejar la escuela?"
+    { texto: "En la última semana, ¿te has sentido triste sin razón?", tipo: "emocional" },
+    { texto: "¿Te has sentido preocupado o nervioso?", tipo: "emocional" },
+    { texto: "¿Te cuesta disfrutar cosas que antes te gustaban?", tipo: "emocional" },
+
+    { texto: "¿Te cuesta concentrarte en clase?", tipo: "academico" },
+    { texto: "¿Dejas tareas para el último momento?", tipo: "academico" },
+    { texto: "¿Sientes que tu rendimiento ha bajado?", tipo: "academico" },
+
+    { texto: "¿Te sientes solo/a aunque estés con otros?", tipo: "social" },
+    { texto: "¿Has tenido conflictos con compañeros?", tipo: "social" },
+    { texto: "¿Sientes que tienes con quién hablar?", tipo: "social", invertida: true },
+
+    { texto: "¿Has sentido que nada vale la pena?", tipo: "riesgo" },
+    { texto: "¿Has pensado en dejar la escuela?", tipo: "riesgo" },
+    { texto: "¿Te has sentido sobrepasado por lo que sientes?", tipo: "riesgo" }
 ];
 
 let index = 0;
@@ -102,7 +109,7 @@ function mostrarPregunta() {
     document.getElementById("progress").style.width = progreso + "%";
 
     document.getElementById("contenido").innerHTML = `
-        <div class="question">${preguntas[index]}</div>
+        <div class="question">${preguntas[index].texto}</div>
         <div class="options">
             <button onclick="responder(0)">Nunca</button>
             <button onclick="responder(1)">A veces</button>
@@ -119,27 +126,73 @@ function responder(valor) {
     if (index < preguntas.length) {
         mostrarPregunta();
     } else {
-        mostrarResultado();
+        calcularResultado();
     }
 }
 
-function mostrarResultado() {
-    let total = respuestas.reduce((a, b) => a + b, 0);
-    let mensaje = "";
+function calcularResultado() {
+    let scores = {
+        emocional: 0,
+        academico: 0,
+        social: 0,
+        riesgo: 0
+    };
 
-    if (total <= 3) {
-        mensaje = "🟢 Parece que te encuentras en un buen momento emocional. Sigue así.";
-    } else if (total <= 6) {
-        mensaje = "🟡 Hay algunas señales de estrés. Hablar con alguien puede ayudarte.";
-    } else if (total <= 9) {
-        mensaje = "🟠 Podrías estar pasando por un momento difícil. Busca apoyo.";
+    let alertaCritica = false;
+
+    respuestas.forEach((valor, i) => {
+        let pregunta = preguntas[i];
+
+        if (pregunta.invertida) {
+            valor = 3 - valor;
+        }
+
+        scores[pregunta.tipo] += valor;
+
+        if (pregunta.tipo === "riesgo" && valor >= 2) {
+            alertaCritica = true;
+        }
+    });
+
+    let principal = Object.keys(scores).reduce((a, b) => scores[a] > scores[b] ? a : b);
+
+    let total = Object.values(scores).reduce((a, b) => a + b, 0);
+
+    let nivel = "";
+    if (alertaCritica || total > 20) {
+        nivel = "alto";
+    } else if (total > 14) {
+        nivel = "moderado";
+    } else if (total > 7) {
+        nivel = "leve";
     } else {
-        mensaje = "🔴 Es importante que hables con alguien de confianza o un profesional.";
+        nivel = "bajo";
     }
 
+    mostrarResultado(nivel, principal);
+}
+
+function mostrarResultado(nivel, area) {
+    let mensajes = {
+        bajo: "🟢 Te encuentras en un buen momento general.",
+        leve: "🟡 Hay algunas señales que vale la pena atender.",
+        moderado: "🟠 Podrías estar pasando por un momento difícil.",
+        alto: "🔴 Es importante que hables con alguien de confianza o un profesional."
+    };
+
+    let areas = {
+        emocional: "emocional",
+        academico: "académica",
+        social: "social",
+        riesgo: "de riesgo personal"
+    };
+
     document.getElementById("contenido").innerHTML = `
-        <div class="result">${mensaje}</div>
-        <br><br>
+        <div class="result">
+            <p>${mensajes[nivel]}</p>
+            <p>Área principal detectada: <strong>${areas[area]}</strong></p>
+        </div>
+        <br>
         <button onclick="reiniciar()">Volver a empezar</button>
     `;
 }
