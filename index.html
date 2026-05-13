@@ -118,7 +118,7 @@ h1 { margin: 0; font-size: 28px; }
     transition: all 0.2s ease;
 }
 
-.options button:hover, .emotion-btn:hover {
+.options button:hover {
     transform: translateY(-2px);
     border-color: #7c3aed;
     box-shadow: 0 8px 18px rgba(124,58,237,0.18);
@@ -144,30 +144,36 @@ h1 { margin: 0; font-size: 28px; }
 
 .emotion-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 10px;
-    margin-top: 18px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-top: 20px;
 }
 
 .emotion-btn {
-    background: white;
-    border: 1px solid #e2e8f0;
-    border-radius: 18px;
-    padding: 12px 6px;
+    background: var(--emotion-bg);
+    border: 1px solid var(--emotion-border);
+    border-radius: 22px;
+    padding: 18px 10px;
     cursor: pointer;
     transition: all 0.2s ease;
 }
 
+.emotion-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    border-color: var(--emotion-border);
+    box-shadow: 0 10px 22px rgba(15,23,42,0.12);
+}
+
 .emotion-emoji {
-    font-size: 28px;
+    font-size: 38px;
     display: block;
-    margin-bottom: 5px;
+    margin-bottom: 8px;
 }
 
 .emotion-label {
-    font-size: 11px;
-    color: #475569;
-    font-weight: 700;
+    font-size: 14px;
+    color: #334155;
+    font-weight: 800;
 }
 
 .emotion-message {
@@ -217,7 +223,6 @@ h1 { margin: 0; font-size: 28px; }
 @media (max-width: 480px) {
     .app { padding: 22px; border-radius: 24px; }
     .question { font-size: 18px; }
-    .emotion-grid { gap: 7px; }
 }
 </style>
 </head>
@@ -265,11 +270,13 @@ const preguntas = [
 ];
 
 const emociones = [
-    { emoji: "😄", label: "Muy bien", valor: 1, mensaje: "Qué bueno. Vamos a revisar cómo ha estado tu semana." },
-    { emoji: "🙂", label: "Bien", valor: 2, mensaje: "Perfecto. Este espacio es para conocerte un poco mejor." },
-    { emoji: "😐", label: "Regular", valor: 3, mensaje: "Gracias por compartirlo. A veces ponerle nombre ayuda." },
-    { emoji: "😕", label: "Mal", valor: 4, mensaje: "Gracias por decirlo. No tienes que cargar todo tú solo/a." },
-    { emoji: "😞", label: "Muy mal", valor: 5, mensaje: "Lamento que hoy se sienta así. Este espacio puede ayudar a identificar qué está pasando." }
+    { emoji: "😄", label: "Contento/a", valor: 1, color: "#fef3c7", border: "#fde68a", mensaje: "Qué bueno. Vamos a revisar cómo ha estado tu semana." },
+    { emoji: "🙂", label: "Tranquilo/a", valor: 2, color: "#dbeafe", border: "#bfdbfe", mensaje: "Perfecto. Este espacio es para conocerte un poco mejor." },
+    { emoji: "😐", label: "Cansado/a", valor: 3, color: "#f1f5f9", border: "#cbd5e1", mensaje: "Gracias por compartirlo. A veces ponerle nombre ayuda." },
+    { emoji: "😕", label: "Preocupado/a", valor: 4, color: "#ede9fe", border: "#ddd6fe", mensaje: "Gracias por decirlo. No tienes que cargar todo tú solo/a." },
+    { emoji: "😞", label: "Triste", valor: 5, color: "#e0f2fe", border: "#bae6fd", mensaje: "Lamento que hoy se sienta así. Este espacio puede ayudar a identificar qué está pasando." },
+    { emoji: "😠", label: "Enojado/a", valor: 6, color: "#ffedd5", border: "#fed7aa", mensaje: "Está bien reconocer el enojo. Vamos a revisar qué puede estar influyendo." },
+    { emoji: "😔", label: "Decepcionado/a", valor: 7, color: "#f3e8ff", border: "#e9d5ff", mensaje: "Gracias por compartirlo. A veces la decepción pesa más de lo que parece." }
 ];
 
 let index = 0;
@@ -299,7 +306,7 @@ function pantallaEmocion() {
             <p class="result-text">Elige la opción que más se parezca a tu estado de ánimo en este momento.</p>
             <div class="emotion-grid">
                 ${emociones.map((e, i) => `
-                    <button class="emotion-btn" onclick="seleccionarEmocion(${i})">
+                    <button class="emotion-btn" style="--emotion-bg:${e.color}; --emotion-border:${e.border};" onclick="seleccionarEmocion(${i})">
                         <span class="emotion-emoji">${e.emoji}</span>
                         <span class="emotion-label">${e.label}</span>
                     </button>
