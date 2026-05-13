@@ -6,9 +6,7 @@
 <title>Pulso360</title>
 
 <style>
-* {
-    box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
     margin: 0;
@@ -26,7 +24,7 @@ body {
 }
 
 .app {
-    background: rgba(255, 255, 255, 0.94);
+    background: rgba(255,255,255,0.94);
     width: 100%;
     max-width: 430px;
     border-radius: 28px;
@@ -57,10 +55,7 @@ body {
     font-size: 20px;
 }
 
-h1 {
-    margin: 0;
-    font-size: 28px;
-}
+h1 { margin: 0; font-size: 28px; }
 
 .subtitle {
     font-size: 14px;
@@ -68,9 +63,7 @@ h1 {
     margin-bottom: 22px;
 }
 
-.progress-wrap {
-    margin-bottom: 22px;
-}
+.progress-wrap { margin-bottom: 22px; }
 
 .progress-info {
     display: flex;
@@ -125,7 +118,7 @@ h1 {
     transition: all 0.2s ease;
 }
 
-.options button:hover {
+.options button:hover, .emotion-btn:hover {
     transform: translateY(-2px);
     border-color: #7c3aed;
     box-shadow: 0 8px 18px rgba(124,58,237,0.18);
@@ -147,6 +140,44 @@ h1 {
     line-height: 1.5;
     color: #64748b;
     margin-top: 16px;
+}
+
+.emotion-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+    margin-top: 18px;
+}
+
+.emotion-btn {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 18px;
+    padding: 12px 6px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.emotion-emoji {
+    font-size: 28px;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.emotion-label {
+    font-size: 11px;
+    color: #475569;
+    font-weight: 700;
+}
+
+.emotion-message {
+    margin-top: 18px;
+    padding: 12px;
+    background: #eef2ff;
+    color: #4338ca;
+    border-radius: 16px;
+    font-size: 14px;
+    line-height: 1.4;
 }
 
 .result-badge {
@@ -184,14 +215,9 @@ h1 {
 }
 
 @media (max-width: 480px) {
-    .app {
-        padding: 22px;
-        border-radius: 24px;
-    }
-
-    .question {
-        font-size: 18px;
-    }
+    .app { padding: 22px; border-radius: 24px; }
+    .question { font-size: 18px; }
+    .emotion-grid { gap: 7px; }
 }
 </style>
 </head>
@@ -238,8 +264,17 @@ const preguntas = [
     { texto: "¿Has pensado en dejar la escuela?", tipo: "riesgo" }
 ];
 
+const emociones = [
+    { emoji: "😄", label: "Muy bien", valor: 1, mensaje: "Qué bueno. Vamos a revisar cómo ha estado tu semana." },
+    { emoji: "🙂", label: "Bien", valor: 2, mensaje: "Perfecto. Este espacio es para conocerte un poco mejor." },
+    { emoji: "😐", label: "Regular", valor: 3, mensaje: "Gracias por compartirlo. A veces ponerle nombre ayuda." },
+    { emoji: "😕", label: "Mal", valor: 4, mensaje: "Gracias por decirlo. No tienes que cargar todo tú solo/a." },
+    { emoji: "😞", label: "Muy mal", valor: 5, mensaje: "Lamento que hoy se sienta así. Este espacio puede ayudar a identificar qué está pasando." }
+];
+
 let index = 0;
 let respuestas = [];
+let emocionInicial = null;
 
 function pantallaInicio() {
     document.getElementById("contenido").innerHTML = `
@@ -249,11 +284,38 @@ function pantallaInicio() {
                 Responde con honestidad. No hay respuestas buenas o malas.
                 Este cuestionario ayuda a identificar señales de bienestar, estrés o riesgo escolar.
             </p>
-            <button class="primary-btn" onclick="mostrarPregunta()">Comenzar</button>
+            <button class="primary-btn" onclick="pantallaEmocion()">Comenzar</button>
             <p class="notice">
                 Tus respuestas deben manejarse con confidencialidad y solo con fines de orientación.
             </p>
         </div>
+    `;
+}
+
+function pantallaEmocion() {
+    document.getElementById("contenido").innerHTML = `
+        <div class="card">
+            <div class="question">¿Cómo te sientes hoy?</div>
+            <p class="result-text">Elige la opción que más se parezca a tu estado de ánimo en este momento.</p>
+            <div class="emotion-grid">
+                ${emociones.map((e, i) => `
+                    <button class="emotion-btn" onclick="seleccionarEmocion(${i})">
+                        <span class="emotion-emoji">${e.emoji}</span>
+                        <span class="emotion-label">${e.label}</span>
+                    </button>
+                `).join("")}
+            </div>
+            <div id="emotionMessage"></div>
+        </div>
+    `;
+}
+
+function seleccionarEmocion(i) {
+    emocionInicial = emociones[i];
+
+    document.getElementById("emotionMessage").innerHTML = `
+        <div class="emotion-message">${emocionInicial.mensaje}</div>
+        <button class="primary-btn" onclick="mostrarPregunta()">Continuar</button>
     `;
 }
 
@@ -389,6 +451,7 @@ function mostrarResultado(nivel, area) {
             <div class="result-badge">${data[nivel].icono}</div>
             <div class="result-title">${data[nivel].titulo}</div>
             <p class="result-text">${data[nivel].texto}</p>
+            ${emocionInicial ? `<p class="result-text">Hoy seleccionaste: <strong>${emocionInicial.emoji} ${emocionInicial.label}</strong></p>` : ""}
             <div class="area-pill">Área principal: ${areas[area]}</div>
             <button class="primary-btn" onclick="reiniciar()">Volver a empezar</button>
         </div>
@@ -398,6 +461,7 @@ function mostrarResultado(nivel, area) {
 function reiniciar() {
     index = 0;
     respuestas = [];
+    emocionInicial = null;
     pantallaInicio();
 }
 
