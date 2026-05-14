@@ -55,10 +55,7 @@ body {
     font-size: 20px;
 }
 
-h1 {
-    margin: 0;
-    font-size: 28px;
-}
+h1 { margin: 0; font-size: 28px; }
 
 .subtitle {
     font-size: 14px;
@@ -66,9 +63,88 @@ h1 {
     margin-bottom: 22px;
 }
 
-.progress-wrap {
+.card {
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 22px;
+    padding: 24px;
+    margin-top: 10px;
+}
+
+.question {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.35;
     margin-bottom: 22px;
 }
+
+.result-text {
+    font-size: 15px;
+    color: #475569;
+    line-height: 1.5;
+}
+
+.notice {
+    font-size: 13px;
+    line-height: 1.5;
+    color: #64748b;
+    margin-top: 16px;
+}
+
+.consent-box {
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    text-align: left;
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 16px;
+    padding: 12px;
+    margin-top: 18px;
+    font-size: 13px;
+    color: #475569;
+}
+
+.consent-box input {
+    margin-top: 3px;
+}
+
+.primary-btn,
+.options button {
+    display: block;
+    width: 100%;
+    margin: 12px 0;
+    padding: 14px;
+    border-radius: 16px;
+    background: white;
+    color: #0f172a;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    border: 1px solid #e2e8f0;
+    transition: all 0.2s ease;
+}
+
+.primary-btn {
+    background: linear-gradient(135deg, #7c3aed, #06b6d4);
+    color: white;
+    border: none;
+}
+
+.primary-btn:hover,
+.options button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px rgba(124,58,237,0.18);
+}
+
+.primary-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.progress-wrap { margin-bottom: 22px; }
 
 .progress-info {
     display: flex;
@@ -87,65 +163,8 @@ h1 {
 
 .progress-bar {
     height: 100%;
-    width: 0%;
     background: linear-gradient(90deg, #7c3aed, #06b6d4);
     transition: width 0.35s ease;
-}
-
-.card {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 22px;
-    padding: 24px;
-    margin-top: 10px;
-}
-
-.question {
-    font-size: 20px;
-    font-weight: 700;
-    line-height: 1.35;
-    margin-bottom: 22px;
-}
-
-.options button,
-.primary-btn {
-    display: block;
-    width: 100%;
-    margin: 12px 0;
-    padding: 14px;
-    border: none;
-    border-radius: 16px;
-    background: white;
-    color: #0f172a;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
-    border: 1px solid #e2e8f0;
-    transition: all 0.2s ease;
-}
-
-.options button:hover {
-    transform: translateY(-2px);
-    border-color: #7c3aed;
-    box-shadow: 0 8px 18px rgba(124,58,237,0.18);
-}
-
-.primary-btn {
-    background: linear-gradient(135deg, #7c3aed, #06b6d4);
-    color: white;
-    border: none;
-}
-
-.primary-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 12px 25px rgba(6,182,212,0.28);
-}
-
-.notice {
-    font-size: 13px;
-    line-height: 1.5;
-    color: #64748b;
-    margin-top: 16px;
 }
 
 .emotion-grid {
@@ -166,7 +185,6 @@ h1 {
 
 .emotion-btn:hover {
     transform: translateY(-3px) scale(1.02);
-    border-color: var(--emotion-border);
     box-shadow: 0 10px 22px rgba(15,23,42,0.12);
 }
 
@@ -182,15 +200,32 @@ h1 {
     font-weight: 800;
 }
 
-.emotion-message {
+.emotion-message,
+.recommendation-box,
+.risk-box {
     margin-top: 18px;
     padding: 14px;
-    background: #eef2ff;
-    color: #4338ca;
     border-radius: 16px;
     font-size: 14px;
     line-height: 1.5;
     text-align: left;
+}
+
+.emotion-message {
+    background: #eef2ff;
+    color: #4338ca;
+}
+
+.recommendation-box {
+    background: #ecfeff;
+    color: #155e75;
+    border: 1px solid #a5f3fc;
+}
+
+.risk-box {
+    background: #fff1f2;
+    color: #9f1239;
+    border: 1px solid #fecdd3;
 }
 
 .result-badge {
@@ -202,12 +237,6 @@ h1 {
     font-size: 22px;
     font-weight: 800;
     margin-bottom: 10px;
-}
-
-.result-text {
-    font-size: 15px;
-    color: #475569;
-    line-height: 1.5;
 }
 
 .area-pill {
@@ -228,14 +257,8 @@ h1 {
 }
 
 @media (max-width: 480px) {
-    .app {
-        padding: 22px;
-        border-radius: 24px;
-    }
-
-    .question {
-        font-size: 18px;
-    }
+    .app { padding: 22px; border-radius: 24px; }
+    .question { font-size: 18px; }
 }
 </style>
 </head>
@@ -243,7 +266,6 @@ h1 {
 <body>
 
 <div class="app">
-
     <div class="brand">
         <div class="logo">P</div>
         <div>
@@ -257,11 +279,9 @@ h1 {
     <div class="footer">
         Herramienta de orientación preventiva. No sustituye atención profesional.
     </div>
-
 </div>
 
 <script>
-
 const preguntas = [
     { texto: "¿Te has sentido triste sin razón?", tipo: "emocional" },
     { texto: "¿Te has sentido preocupado o nervioso?", tipo: "emocional" },
@@ -353,6 +373,39 @@ const emociones = [
     }
 ];
 
+const areasInfo = {
+    emocional: {
+        nombre: "Estado emocional",
+        explicacion: "Tus respuestas sugieren que el ánimo, la preocupación o la forma en que disfrutas las cosas podrían necesitar atención.",
+        recomendacion: "Prueba una pausa breve: inhala 4 segundos, mantén 4 segundos y exhala 4 segundos. Repite esto 4 veces lentamente."
+    },
+    academico: {
+        nombre: "Área académica",
+        explicacion: "Puede haber dificultad relacionada con concentración, tareas, presión escolar o rendimiento percibido.",
+        recomendacion: "Elige una tarea pequeña y hazla durante solo 5 minutos. Empezar con algo mínimo puede reducir la sensación de bloqueo."
+    },
+    social: {
+        nombre: "Contexto social",
+        explicacion: "Tus respuestas sugieren que el apoyo social, la pertenencia o los conflictos con otros podrían estar influyendo en cómo te sientes.",
+        recomendacion: "Piensa en una persona con la que te sientas seguro/a y envíale un mensaje sencillo: “¿Podemos hablar un momento?”"
+    },
+    autocuidado: {
+        nombre: "Autocuidado",
+        explicacion: "El descanso, la energía o tus hábitos diarios podrían estar afectando tu bienestar.",
+        recomendacion: "Hoy intenta hacer una pausa de pantalla antes de dormir y prepara algo simple que te ayude a descansar mejor."
+    },
+    motivacion: {
+        nombre: "Motivación escolar",
+        explicacion: "Puede haber señales de cansancio mental, desinterés o dificultad para encontrar sentido en lo escolar.",
+        recomendacion: "En lugar de pensar en todo lo que falta, identifica solo el siguiente paso pequeño que puedes hacer hoy."
+    },
+    riesgo: {
+        nombre: "Riesgo personal",
+        explicacion: "Algunas respuestas indican que podrías necesitar apoyo adicional y no deberías manejar esto solo/a.",
+        recomendacion: "Busca a una persona adulta de confianza, orientación escolar o alguien que pueda acompañarte hoy mismo."
+    }
+};
+
 let index = 0;
 let respuestas = [];
 let emocionInicial = null;
@@ -367,25 +420,35 @@ function pantallaInicio() {
                 Este cuestionario ayuda a identificar señales de bienestar, estrés o riesgo escolar.
             </p>
 
-            <button class="primary-btn" onclick="pantallaEmocion()">
+            <div class="consent-box">
+                <input type="checkbox" id="consentimiento" onchange="validarConsentimiento()">
+                <label for="consentimiento">
+                    Entiendo que Pulso360 es una herramienta de orientación preventiva, no un diagnóstico,
+                    y acepto responder de forma voluntaria.
+                </label>
+            </div>
+
+            <button id="btnComenzar" class="primary-btn" onclick="pantallaEmocion()" disabled>
                 Comenzar
             </button>
 
             <p class="notice">
-                Tus respuestas deben manejarse con confidencialidad y solo con fines de orientación.
+                Si alguna respuesta indica riesgo importante, lo adecuado es buscar apoyo con una persona adulta de confianza u orientación escolar.
             </p>
         </div>
     `;
 }
 
-function pantallaEmocion() {
+function validarConsentimiento() {
+    const check = document.getElementById("consentimiento");
+    const boton = document.getElementById("btnComenzar");
+    boton.disabled = !check.checked;
+}
 
+function pantallaEmocion() {
     document.getElementById("contenido").innerHTML = `
         <div class="card">
-
-            <div class="question">
-                ¿Cómo te sientes hoy?
-            </div>
+            <div class="question">¿Cómo te sientes hoy?</div>
 
             <p class="result-text">
                 Elige la opción que más se parezca a tu estado emocional en este momento.
@@ -399,30 +462,23 @@ function pantallaEmocion() {
 
                         <span class="emotion-emoji">${e.emoji}</span>
                         <span class="emotion-label">${e.label}</span>
-
                     </button>
                 `).join("")}
             </div>
 
             <div id="emotionMessage"></div>
-
         </div>
     `;
 }
 
 function seleccionarEmocion(i) {
-
     emocionInicial = emociones[i];
 
     document.getElementById("emotionMessage").innerHTML = `
         <div class="emotion-message">
-
             <strong>${emocionInicial.mensaje}</strong>
-
             <br><br>
-
             ${emocionInicial.explicacion}
-
         </div>
 
         <button class="primary-btn" onclick="mostrarPregunta()">
@@ -432,13 +488,10 @@ function seleccionarEmocion(i) {
 }
 
 function mostrarPregunta() {
-
     let progreso = (index / preguntas.length) * 100;
 
     document.getElementById("contenido").innerHTML = `
-
         <div class="progress-wrap">
-
             <div class="progress-info">
                 <span>Pregunta ${index + 1} de ${preguntas.length}</span>
                 <span>${Math.round(progreso)}%</span>
@@ -447,32 +500,23 @@ function mostrarPregunta() {
             <div class="progress">
                 <div class="progress-bar" style="width:${progreso}%"></div>
             </div>
-
         </div>
 
         <div class="card">
-
-            <div class="question">
-                ${preguntas[index].texto}
-            </div>
+            <div class="question">${preguntas[index].texto}</div>
 
             <div class="options">
-
                 <button onclick="responder(0)">Nunca</button>
                 <button onclick="responder(1)">A veces</button>
                 <button onclick="responder(2)">Frecuentemente</button>
                 <button onclick="responder(3)">Casi siempre</button>
-
             </div>
-
         </div>
     `;
 }
 
 function responder(valor) {
-
     respuestas.push(valor);
-
     index++;
 
     if (index < preguntas.length) {
@@ -483,7 +527,6 @@ function responder(valor) {
 }
 
 function calcularResultado() {
-
     let scores = {
         emocional: 0,
         academico: 0,
@@ -496,7 +539,6 @@ function calcularResultado() {
     let alertaCritica = false;
 
     respuestas.forEach((valor, i) => {
-
         let p = preguntas[i];
 
         if (p.invertida) {
@@ -508,7 +550,6 @@ function calcularResultado() {
         if (p.tipo === "riesgo" && valor >= 2) {
             alertaCritica = true;
         }
-
     });
 
     let total = Object.values(scores).reduce((a, b) => a + b, 0);
@@ -533,48 +574,33 @@ function calcularResultado() {
 }
 
 function mostrarResultado(nivel, area) {
-
     const data = {
-
         bajo: {
             icono: "🟢",
             titulo: "Bienestar estable",
             texto: "En general, tus respuestas indican un estado favorable. Sigue cuidando tus hábitos, descanso y relaciones."
         },
-
         leve: {
             icono: "🟡",
             titulo: "Señales leves",
             texto: "Hay algunas áreas que podrían necesitar atención. Hablar con alguien de confianza puede ayudarte a prevenir que aumenten."
         },
-
         moderado: {
             icono: "🟠",
             titulo: "Carga importante",
             texto: "Tus respuestas sugieren que podrías estar pasando por un momento difícil. Sería recomendable buscar apoyo."
         },
-
         alto: {
             icono: "🔴",
             titulo: "Alerta de apoyo",
-            texto: "Es importante que hables con una persona adulta de confianza, orientación escolar o un profesional."
+            texto: "Tus respuestas indican que sería importante buscar apoyo con una persona adulta de confianza, orientación escolar o un profesional."
         }
-
     };
 
-    const areas = {
-        emocional: "Estado emocional",
-        academico: "Área académica",
-        social: "Contexto social",
-        autocuidado: "Autocuidado",
-        motivacion: "Motivación escolar",
-        riesgo: "Riesgo personal"
-    };
+    const infoArea = areasInfo[area];
 
     document.getElementById("contenido").innerHTML = `
-
         <div class="progress-wrap">
-
             <div class="progress-info">
                 <span>Completado</span>
                 <span>100%</span>
@@ -583,22 +609,14 @@ function mostrarResultado(nivel, area) {
             <div class="progress">
                 <div class="progress-bar" style="width:100%"></div>
             </div>
-
         </div>
 
         <div class="card">
+            <div class="result-badge">${data[nivel].icono}</div>
 
-            <div class="result-badge">
-                ${data[nivel].icono}
-            </div>
+            <div class="result-title">${data[nivel].titulo}</div>
 
-            <div class="result-title">
-                ${data[nivel].titulo}
-            </div>
-
-            <p class="result-text">
-                ${data[nivel].texto}
-            </p>
+            <p class="result-text">${data[nivel].texto}</p>
 
             ${emocionInicial ? `
                 <p class="result-text">
@@ -608,28 +626,43 @@ function mostrarResultado(nivel, area) {
             ` : ""}
 
             <div class="area-pill">
-                Área principal: ${areas[area]}
+                Área principal: ${infoArea.nombre}
             </div>
+
+            <p class="result-text">
+                ${infoArea.explicacion}
+            </p>
+
+            <div class="recommendation-box">
+                <strong>Algo que puedes intentar ahora:</strong>
+                <br><br>
+                ${infoArea.recomendacion}
+            </div>
+
+            ${nivel === "alto" ? `
+                <div class="risk-box">
+                    <strong>Importante:</strong>
+                    <br><br>
+                    Si sientes que podrías hacerte daño, que no estás seguro/a o que no puedes manejar esto solo/a,
+                    busca ayuda inmediata con una persona adulta de confianza, orientación escolar o servicios de emergencia.
+                </div>
+            ` : ""}
 
             <button class="primary-btn" onclick="reiniciar()">
                 Volver a empezar
             </button>
-
         </div>
     `;
 }
 
 function reiniciar() {
-
     index = 0;
     respuestas = [];
     emocionInicial = null;
-
     pantallaInicio();
 }
 
 pantallaInicio();
-
 </script>
 
 </body>
